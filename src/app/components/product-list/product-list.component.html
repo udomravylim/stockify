@@ -1,0 +1,146 @@
+<div class="product-list-container">
+  <div class="header">
+    <h1>📦 Stockify</h1>
+    <div class="actions">
+      <button class="btn btn-primary" (click)="loadProducts()">🔄 Refresh</button>
+      <button class="btn btn-success" (click)="openCreateForm()">➕ Add Product</button>
+    </div>
+  </div>
+
+  @if (!loading && !error && products.length > 0) {
+    <div class="filters-container">
+      <!-- Category Filter Tabs -->
+      <div class="category-tabs">
+        <button 
+          class="category-tab" 
+          [class.active]="selectedCategory === null"
+          (click)="filterByCategory(null)">
+          All
+        </button>
+        @for (category of categories; track category) {
+          <button 
+            class="category-tab" 
+            [class.active]="selectedCategory === category"
+            (click)="filterByCategory(category)">
+            {{ category }}
+          </button>
+        }
+      </div>
+
+      <!-- Search Box -->
+      <div class="search-container">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input 
+            type="text" 
+            class="search-input" 
+            placeholder="Search products by name, category, or description..."
+            [(ngModel)]="searchTerm"
+            (input)="filterProducts()"
+          />
+          @if (searchTerm || selectedCategory) {
+            <button class="clear-search" (click)="clearSearch()" title="Clear filters">✕</button>
+          }
+        </div>
+        @if ((searchTerm || selectedCategory) && filteredProducts.length === 0) {
+          <div class="search-results-info">
+            No products found
+            @if (selectedCategory) {
+              in category "{{ selectedCategory }}"
+            }
+            @if (searchTerm) {
+              matching "{{ searchTerm }}"
+            }
+          </div>
+        }
+        @if ((searchTerm || selectedCategory) && filteredProducts.length > 0) {
+          <div class="search-results-info">
+            Found {{ filteredProducts.length }} product(s)
+            @if (selectedCategory) {
+              in category "{{ selectedCategory }}"
+            }
+            @if (searchTerm) {
+              matching "{{ searchTerm }}"
+            }
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  @if (loading) {
+    <div class="loading">Loading products...</div>
+  }
+
+  @if (!loading && error) {
+    <div class="error">
+      <h3>⚠️ Error Loading Products</h3>
+      <p>{{ error }}</p>
+      <button class="btn btn-primary" (click)="loadProducts()">Try Again</button>
+    </div>
+  }
+
+  @if (!loading && !error && products.length === 0) {
+    <div class="empty-state">
+      <h2>No products found</h2>
+      <p>Click "Add Product" to create your first product.</p>
+    </div>
+  }
+
+  @if (!loading && !error && products.length > 0 && filteredProducts.length === 0 && (searchTerm || selectedCategory)) {
+    <div class="empty-state">
+      <h2>No products found</h2>
+      <p>
+        @if (selectedCategory && searchTerm) {
+          No products in category "{{ selectedCategory }}" match "{{ searchTerm }}".
+        } @else if (selectedCategory) {
+          No products found in category "{{ selectedCategory }}".
+        } @else {
+          No products match your search "{{ searchTerm }}".
+        }
+      </p>
+      <button class="btn btn-primary" (click)="clearSearch()">Clear Filters</button>
+    </div>
+  }
+
+  @if (!loading && !error && products.length > 0) {
+    <div class="products-grid">
+      @for (product of filteredProducts; track product._id) {
+        <div class="product-card">
+          <div class="product-name">{{ product.name }}</div>
+          <span class="product-category">{{ product.category }}</span>
+          <div class="product-info">
+            <strong>Quantity:</strong> {{ product.quantity }}
+          </div>
+          <div class="product-price">${{ product.price | number:'1.2-2' }}</div>
+          @if (product.description) {
+            <div class="product-description">
+              @if (isDescriptionLong(product.description) && !isExpanded(product._id)) {
+                <span>{{ getTruncatedDescription(product.description) }}</span>
+                <button class="show-more-link" (click)="toggleDescription(product._id)">Show more</button>
+              } @else if (isDescriptionLong(product.description) && isExpanded(product._id)) {
+                <span>{{ product.description }}</span>
+                <button class="show-more-link" (click)="toggleDescription(product._id)">Show less</button>
+              } @else {
+                <span>{{ product.description }}</span>
+              }
+            </div>
+          }
+          <div class="product-actions">
+            <button class="btn btn-warning btn-small" (click)="openEditForm(product)">✏️ Edit</button>
+            <button class="btn btn-danger btn-small" (click)="deleteProduct(product._id)">🗑️ Delete</button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  @if (showForm) {
+    <app-product-form 
+      [product]="editingProduct"
+      (saved)="onProductSaved()"
+      (cancelled)="closeForm()">
+    </app-product-form>
+  }
+</div>
+

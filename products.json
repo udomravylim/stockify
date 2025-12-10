@@ -1,0 +1,73 @@
+[
+  {
+    "name": "Laptop",
+    "quantity": 15,
+    "price": 999.99,
+    "category": "Electronics",
+    "description": "High-performance laptop with 16GB RAM and 512GB SSD"
+  },
+  {
+    "name": "Wireless Mouse",
+    "quantity": 50,
+    "price": 29.99,
+    "category": "Electronics",
+    "description": "Ergonomic wireless mouse with long battery life"
+  },
+  {
+    "name": "Office Chair",
+    "quantity": 25,
+    "price": 199.99,
+    "category": "Furniture",
+    "description": "Comfortable ergonomic office chair with lumbar support"
+  },
+  {
+    "name": "Desk Lamp",
+    "quantity": 30,
+    "price": 45.00,
+    "category": "Furniture",
+    "description": "LED desk lamp with adjustable brightness"
+  },
+  {
+    "name": "Notebook",
+    "quantity": 100,
+    "price": 5.99,
+    "category": "Stationery",
+    "description": "A5 ruled notebook with 200 pages"
+  },
+  {
+    "name": "Pen Set",
+    "quantity": 75,
+    "price": 12.50,
+    "category": "Stationery",
+    "description": "Set of 5 gel pens in assorted colors"
+  },
+  {
+    "name": "Monitor",
+    "quantity": 20,
+    "price": 299.99,
+    "category": "Electronics",
+    "description": "27-inch 4K monitor with IPS display"
+  },
+  {
+    "name": "Keyboard",
+    "quantity": 35,
+    "price": 79.99,
+    "category": "Electronics",
+    "description": "Mechanical keyboard with RGB backlighting"
+  },
+  {
+    "name": "Coffee Mug",
+    "quantity": 60,
+    "price": 8.99,
+    "category": "Accessories",
+    "description": "Ceramic coffee mug with handle"
+  },
+  {
+    "name": "USB Cable",
+    "quantity": 200,
+    "price": 9.99,
+    "category": "Electronics",
+    "description": "USB-C to USB-A cable, 6 feet"
+  }
+]
+
